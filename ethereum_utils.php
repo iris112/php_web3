@@ -74,6 +74,6 @@ function getTransaction($Txhash) {
 
 // getBalance($FromAccount);
 // sendEther($FromAccount, $PRIVATE_KEY, $ToAccount, '0.002');
-// getTransaction('0x.....');
+// getTransaction('0x259aad2c10756faf303193b68dc85075dbecd817bb2d8afb70575fd03e60c19e');
 
 
