@@ -1,0 +1,8 @@
+{
+    "require": {
+        "sc0vu/web3.php": "dev-master",
+		"kesar/ethereum-php": "dev-master",
+		"web3p/ethereum-tx": "dev-master",
+		"digitaldonkey/ethereum-php": "dev-master"
+    }
+}
