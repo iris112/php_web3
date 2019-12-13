@@ -14,9 +14,9 @@ use Web3p\EthereumTx\Transaction;
 use Ethereum\Ethereum;
 use Ethereum\DataType\EthD32;
 
-$PRIVATE_KEY = '0x.....';
-$FromAccount = '0x.....';
-$ToAccount = '0x....';
+$PRIVATE_KEY = '0x.................';
+$FromAccount = '0x.................';
+$ToAccount = '0x.................';
 $client = new EthereumClient('https://ropsten.infura.io');
 $web3 = new Web3(new HttpProvider(new HttpRequestManager('https://ropsten.infura.io', 5)));
 $eth = new Ethereum('https://ropsten.infura.io');
@@ -62,6 +62,7 @@ function getTransaction($Txhash) {
     global $client, $web3, $eth;
     $transaction = $client->eth()->getTransactionByHash(new TransactionHash($Txhash));
     $transactionReceipt = $eth->eth_getTransactionReceipt(new EthD32($Txhash));
+    $latestBlockNumber = $client->eth()->blockNumber();
     echo "Block Hash:       ", $transaction->blockHash(), PHP_EOL;
     echo "Block Number:     ", $transaction->blockNumber(), PHP_EOL;
     echo "From:             ", $transaction->from(), PHP_EOL;
@@ -70,10 +71,26 @@ function getTransaction($Txhash) {
     echo "Nonce:            ", $transaction->nonce(), PHP_EOL;
     echo "Amount:           ", $transaction->value()->toEther(), PHP_EOL;
     echo "Fee:              ", sprintf('%f', $transactionReceipt->gasUsed->val() * 0.00000001), PHP_EOL;
+    echo "Confirmations:    ", $latestBlockNumber - $transaction->blockNumber() + 1, PHP_EOL;
+}
+
+function checkTransactionHash($Txhash) {
+    global $client;
+    try {
+        $transaction = $client->eth()->getTransactionByHash(new TransactionHash($Txhash));
+        $latestBlockNumber = $client->eth()->blockNumber();
+
+        return $latestBlockNumber - $transaction->blockNumber() + 1;
+    } catch (Exception $e) {
+        return 0;
+    } catch (Error $e) {
+        return 0;
+    }
 }
 
 // getBalance($FromAccount);
 // sendEther($FromAccount, $PRIVATE_KEY, $ToAccount, '0.002');
-// getTransaction('0x259aad2c10756faf303193b68dc85075dbecd817bb2d8afb70575fd03e60c19e');
+// getTransaction('0x.................');
+// echo checkTransactionHash('0x.................');
 
 
